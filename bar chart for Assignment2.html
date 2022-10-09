@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Percentage Of Repeaters In Primary Education In Different Countries"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/maihanzhai/FIT3179_Homework9/main/Education%20Indicators%202014.csv"
+  },
+  "params": [
+    {"name": "highlight", "select": {"type": "point", "on": "mouseover"}},
+    {"name": "select", "select": "point"}
+  ],
+  "mark": {
+    "type": "bar",
+    "fill": "#4C78A8",
+    "stroke": "black",
+    "cursor": "pointer"
+  },
+  "encoding": {
+    "x": {"field": "Country Name", "type": "nominal"},
+    "y": {
+      "field": "PRPE",
+      "type": "quantitative",
+      "title": "Percentage Of Repeaters In Primary Education"
+    },
+    "fillOpacity": {"condition": {"param": "select", "value": 1}, "value": 0.3},
+    "strokeWidth": {
+      "condition": [
+        {"param": "select", "empty": false, "value": 2},
+        {"param": "highlight", "empty": false, "value": 1}
+      ],
+      "value": 0
+    },
+    "tooltip": [
+      {"field": "Country Name", "type": "nominal", "title": "Country"},
+      {
+        "field": "PRPE",
+        "type": "quantitative",
+        "title": "Percentage In Primary Education"
+      }
+    ]
+  },
+  "config": {"scale": {"bandPaddingInner": 0.2}}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
